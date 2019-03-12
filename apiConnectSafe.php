@@ -1,5 +1,5 @@
 <?php
-  $API_KEY_MUSIC = "2f2ccd7f5400d05c25749025de23a36a";
+  $API_KEY_MUSIC = "";
   $API_ENDPOINT_MUSIC = "https://api.musixmatch.com/ws/1.1/";
   $url_params = [];
   $url_params['apikey'] = $API_KEY_MUSIC;
