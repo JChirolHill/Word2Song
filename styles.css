@@ -1,0 +1,172 @@
+:root {
+  --background: #E0E0E2;
+  --primaryLight: #81D2C7; /* aqua */
+  --shadowBlue: #7389AE;
+  --complementary: #CDACA1; /* soft brown */
+  --primaryDark: #416788; /* queen blue */
+}
+
+@font-face {
+    src: url('Neon80s/Neon.ttf');
+    font-family: 'Neon';
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  font-family: 'Kalam', cursive;
+  font-size: 20px;
+}
+
+a {
+  color: var(--complementary);
+}
+
+a:hover {
+  text-decoration: none;
+  color: var(--shadowBlue);
+}
+
+i:hover {
+  cursor: pointer;
+}
+
+#seDropdown li {
+  list-style: none;
+}
+
+nav {
+  background-color: var(--primaryDark);
+  color: white;
+  margin-bottom: 20px;
+}
+
+#navHeader {
+  /* width: 500px; */
+}
+
+#navHeader:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+#navTitle {
+  font-size: 30px;
+  font-family: 'Neon';
+  padding: 10px;
+  padding-left: 20px;
+}
+
+#navDescr {
+  padding: 10px;
+  border-top: 1px solid white;
+  display: block;
+  font-family: 'Kalam', cursive;
+  font-size: 20px;
+}
+
+#seDropdownIcon {
+  position: relative;
+  padding-left: 40px;
+}
+
+#seDropdownIcon:hover #seDropdown {
+  display: inline-block;
+}
+
+#seDropdown {
+  color: white;
+  background-color: var(--primaryDark);
+  border-radius: 10px;
+  width: 300px;
+  border: white 1px solid;
+  padding: 10px;
+  display: none;
+  z-index: 3;
+
+  position: absolute;
+  top: 30px;
+  right: 0;
+}
+
+#seDropdown li:first-child {
+  font-size: 25px;
+  font-weight: bold;
+  text-align: left;
+  cursor: default;
+}
+
+#seDropdown li:last-child {
+  border-bottom: none;
+}
+
+#seDropdown li {
+  border-bottom: 1px solid white;
+  text-align: right;
+  cursor: pointer;
+}
+
+.defaultSE {
+  color: var(--complementary);
+}
+
+.btn-primaryLight {
+  background-color: var(--primaryLight);
+  border-color: var(--primaryLight);
+  color: white;
+}
+
+.btn-primaryLight:hover, .btn-shadowBlue {
+  background-color: var(--shadowBlue);
+  border-color: var(--shadowBlue);
+  color: white;
+}
+
+#wordSongBtn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dropdown-menu a, #dropdownLanguage {
+  font-size: 15px;
+}
+
+.cardParent {
+  padding: 10px;
+}
+
+.card p {
+  margin: 0;
+  padding: 0;
+  font-size: 17px;
+}
+
+.card a {
+  margin-top: 10px;
+}
+
+.songDispHeading {
+  color: var(--shadowBlue);
+}
+
+@media (min-width: 600px) {
+  #navTitle {
+    text-align: left;
+  }
+
+  #navDescr {
+    border-left: solid white 1px;
+    border-top: none;
+    display: inline;
+    padding: 10px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    margin-left: 20px;
+    line-height: 60px;
+  }
+}

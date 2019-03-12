@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word2Song</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css" type="text/css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div id="navHeader">
+        <div id="navTitle">Word2Song<span id="navDescr">Find songs to boost your vocab</span></div>
+
+      </div>
+      <div id="seDropdownIcon">
+        <i class="fas fa-cog"></i>
+        <ul id="seDropdown">
+          <li>Default Search Engine</li>
+          <li class="defaultSE" data-se="duckduckgo.com">DuckDuckGo</li>
+          <li data-se="google.com">Google</li>
+        </ul>
+      </div>
+
+    </nav>
+
+    <div class="container">
+      <!-- form to enter word and search -->
+      <form id="wordForm">
+        <div class="row">
+          <div class="form-group col-12 col-md-8 col-lg-9">
+            <label for="wordField">Enter a word</label>
+            <input type="text" class="form-control" id="wordField">
+          </div>
+
+          <div class="col-12 col-md-4 col-lg-3">
+            <label for="dropdownLanguage">Language of the Word</label>
+            <div class="dropdown">
+              <button class="btn btn-shadowBlue dropdown-toggle" type="button" id="dropdownLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                English
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownLanguage">
+                <a class="dropdown-item" href="#" data-lang-id="en">English</a>
+                <a class="dropdown-item" href="#" data-lang-id="fr">French</a>
+                <a class="dropdown-item" href="#" data-lang-id="it">Italian</a>
+                <a class="dropdown-item" href="#" data-lang-id="zh">Chinese</a>
+                <a class="dropdown-item" href="#" data-lang-id="hi">Hindi</a>
+                <a class="dropdown-item" href="#" data-lang-id="ru">Russian</a>
+                <a class="dropdown-item" href="#" data-lang-id="es">Spanish</a>
+                <a class="dropdown-item" href="#" data-lang-id="ko">Korean</a>
+                <a class="dropdown-item" href="#" data-lang-id="ar">Arabic</a>
+                <a class="dropdown-item" href="#" data-lang-id="de">German</a>
+                <a class="dropdown-item" href="#" data-lang-id="pt">Portuguese</a>
+                <a class="dropdown-item" href="#" data-lang-id="ja">Japanese</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primaryLight" id="wordSongBtn">Word2Song</button>
+      </form>
+
+      <!-- results -->
+      <div id="wordSongDisplay"></div>
+      <div id="songListing" class="row"></div>
+    </div>
+
+    <script
+    	src="https://code.jquery.com/jquery-3.3.1.min.js"
+    	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    	crossorigin="anonymous">
+  	</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+      // youtube client ID: 962066282725-qu13neq2hgi725uuqeuh4fdg29261qlc.apps.googleusercontent.com
+      // youtube client secret: l0So16fIZxUP-RZqET8GwJ5O
+
+      $(document).ready(function() {
+        let langSelected = 'en';
+        let searchEngine = 'duckduckgo.com'
+
+        // logic for language selection dropdown
+        $('.dropdown-item').click(function() {
+          $('#dropdownLanguage').html($(this).html());
+          langSelected = $(this).data('langId');
+        });
+
+        // select default search engine
+        $('#seDropdown li:not(:first-child)').on('click', function() {
+          searchEngine = $(this).data('se');
+          $('.defaultSE').removeClass('defaultSE');
+          $(this).addClass('defaultSE');
+          console.log(searchEngine);
+        });
+
+        $('#wordForm').on('submit', function(event) {
+          event.preventDefault();
+          let wordIn = $('#wordField').val().trim();
+          $('#wordField').val('');
+          let langIn = langSelected
+          console.log('Sending request to backend for word ' + wordIn + ' in lang ' + langIn);
+
+          $.ajax({
+            method: 'POST',
+            url: 'apiConnect.php',
+            data: {
+              action: 'wordQuery',
+              word: wordIn,
+              lang: langIn
+            }
+          }).done(function(results) {
+            console.log(results);
+            console.log(results.length);
+
+            $('#wordSongDisplay').html('Showing songs containing the word(s): ' + wordIn);
+
+            let listingHTML = '';
+            for(let i=0; i<results.length; i++) {
+              console.log(results[i]['track_name']);
+
+              let songTitleURL = 'https://' + searchEngine + '/?q=' + results[i]['track_name'].replace(/\s/g, '+');
+              if(searchEngine == 'duckduckgo.com') {
+                songTitleURL += '&t=brave&iax=videos&ia=videos';
+              }
+              console.log(songTitleURL);
+
+              listingHTML += `<div class="cardParent col-12 col-sm-6 col-md-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title"><a target="_blank" href="` + songTitleURL + `">` + results[i]['track_name'] + `</a></h5>
+                    <p class="card-text"><span class="songDispHeading">Album:</span> ` + results[i]['album_name'] + `</p>
+                    <p class="card-text"><span class="songDispHeading">Artist:</span> ` + results[i]['artist_name'] + `</p>
+                    <p class="card-text"><span class="songDispHeading">Rating:</span> ` + results[i]['track_rating'] + `</p>`;
+                    if(results[i]['has_subtitles']) {
+                      listingHTML += `<p class="card-text"><span class="songDispHeading">This track has translations.</span></p>`;
+                    }
+                    listingHTML += `<a target="_blank" href="` + results[i]['lyrics_link'] + `" class="btn btn-primaryLight">See Lyrics</a>
+                  </div>
+                </div>
+              </div>`;
+            }
+            $('#songListing').html(listingHTML);
+          }).fail(function(results) {
+            console.log("AJAX error sending information to backend.");
+          });
+
+          return false;
+        });
+      });
+    </script>
+  </body>
+</html>
