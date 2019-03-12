@@ -154,6 +154,12 @@ nav {
   color: var(--shadowBlue);
 }
 
+.noResults {
+  color: var(--shadowBlue);
+  width: 500px;
+  margin-top: 20px;
+}
+
 @media (min-width: 600px) {
   #navTitle {
     text-align: left;

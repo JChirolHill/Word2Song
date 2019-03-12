@@ -114,9 +114,13 @@
             console.log(results);
             console.log(results.length);
 
-            $('#wordSongDisplay').html('Showing songs containing the word(s): ' + wordIn);
-
             let listingHTML = '';
+            if(results.length == 0) {
+              $('#wordSongDisplay').html('<span class="noResults">No results for: ' + wordIn + '<br />Please check your spelling or language selected.</span>');
+            }
+            else {
+              $('#wordSongDisplay').html('Showing songs containing the word(s): ' + wordIn);
+            }
             for(let i=0; i<results.length; i++) {
               console.log(results[i]['track_name']);
 
