@@ -1,7 +1,9 @@
 <?php
   require __DIR__ . '/vendor/autoload.php' ;
-  $dotenv = Dotenv\Dotenv::create(__DIR__);
-  $dotenv->load();
+  if(file_exists(__DIR__ . '/.env')) {
+    $dotenv = Dotenv\Dotenv::create(__DIR__);
+    $dotenv->load();
+  }
 
   $API_KEY_MUSIC = getenv('API_KEY_MUSIC');
   $API_ENDPOINT_MUSIC = "https://api.musixmatch.com/ws/1.1/";
