@@ -1,4 +1,3 @@
-apiConnect.php
 composer.phar
 vendor/*
 .env
