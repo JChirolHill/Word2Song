@@ -1,5 +1,11 @@
 <?php
-  $API_KEY_MUSIC = "";
+  require('vlucas/phpdotenv');
+  $dotenv = Dotenv\Dotenv::create(__DIR__, 'myconfig');
+  $dotenv->load();
+
+  var_dump($dotenv);
+
+  $API_KEY_MUSIC = $_ENV["API_KEY_MUSIC"];
   $API_ENDPOINT_MUSIC = "https://api.musixmatch.com/ws/1.1/";
   $url_params = [];
   $url_params['apikey'] = $API_KEY_MUSIC;
